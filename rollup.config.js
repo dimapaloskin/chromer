@@ -39,8 +39,6 @@ const createConfigChunk = name => ({
   ]
 })
 
-// TODO: check manifest and run only needed stuff!
-
 const prepare = async () => {
   try {
     await copy('manifest.json', `${constants.dist}/manifest.json`)
