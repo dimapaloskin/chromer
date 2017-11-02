@@ -1,5 +1,7 @@
 const { resolve } = require('path')
 const { copy, writeJson } = require('fs-extra')
+const chalk = require('chalk')
+
 const manifest = require('./templates/manifest.json')
 
 const setupPopup = async ({ path, configuration, manifest }) => {
@@ -84,7 +86,9 @@ const setup = async (path, configuration) => {
   await writeJson(outManifestPath, manifest, {
     spaces: 2
   })
-  console.log('Finish ;)')
+
+  console.log(`${chalk.bold.green('[+]')} Done`)
+  console.log(`    Run ${chalk.dim('yarn build')} now\n`)
 }
 
 module.exports = setup
