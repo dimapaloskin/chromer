@@ -3,10 +3,20 @@ const chalk = require('chalk')
 const inquirer = require('inquirer')
 const fs = require('fs-extra')
 
+const setup = require('./setup')
+
 const currentPath = process.cwd()
 
 const getConfiguration = async () => {
   const result = await inquirer.prompt([{
+    type: 'input',
+    name: 'name',
+    message: 'Extension name'
+  }, {
+    type: 'input',
+    name: 'description',
+    message: 'Extension description'
+  }, {
     type: 'confirm',
     name: 'popup',
     message: 'Add popup page?'
@@ -31,10 +41,6 @@ const getConfiguration = async () => {
   return result
 }
 
-const setup = configuration => {
-  console.log(configuration)
-}
-
 const main = async () => {
   try {
     const manifestPath = resolve(currentPath, 'manifest.json')
@@ -48,7 +54,7 @@ const main = async () => {
     }
 
     const configuration = await getConfiguration()
-    setup(configuration)
+    await setup(currentPath, configuration)
   } catch (err) {
     console.error(err)
     process.exit(1)
