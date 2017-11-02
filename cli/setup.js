@@ -1,5 +1,5 @@
 const { resolve } = require('path')
-const { copy } = require('fs-extra')
+const { copy, writeJson } = require('fs-extra')
 const manifest = require('./templates/manifest.json')
 
 const setupPopup = async ({ path, configuration, manifest }) => {
@@ -14,6 +14,46 @@ const setupPopup = async ({ path, configuration, manifest }) => {
   }
 }
 
+const setupOptionsPage = async ({ path, configuration, manifest }) => {
+  const templatePath = resolve(path, 'cli/templates/options')
+  const destination = resolve(path, 'src/options')
+  await copy(templatePath, destination)
+
+  return 'options.html'
+}
+
+const setupBackgroundScript = async ({ path, configuration, manifest }) => {
+  const templatePath = resolve(path, 'cli/templates/background')
+  const destination = resolve(path, 'src/background')
+  await copy(templatePath, destination)
+
+  return {
+    'persistent': false,
+    'scripts': ['src/js/background.js']
+  }
+}
+
+const setupContentScript = async ({ path, configuration, manifest }) => {
+  const templatePath = resolve(path, 'cli/templates/content')
+  const destination = resolve(path, 'src/content')
+  await copy(templatePath, destination)
+
+  return {
+    'matches': [
+      '*'
+    ],
+    'js': ['js/content.js']
+  }
+}
+
+const setupInjectScript = async ({ path, configuration, manifest }) => {
+  const templatePath = resolve(path, 'cli/templates/inject')
+  const destination = resolve(path, 'src/inject')
+  await copy(templatePath, destination)
+
+  return ['js/inject.js']
+}
+
 const setup = async (path, configuration) => {
   console.log('Configuration:\n', configuration, '\n')
 
@@ -24,7 +64,27 @@ const setup = async (path, configuration) => {
     manifest['browser_action'] = await setupPopup({ path, configuration, manifest })
   }
 
-  console.log(JSON.stringify(manifest, null, 2))
+  if (configuration.options) {
+    manifest['options_page'] = await setupOptionsPage({ path, configuration, manifest })
+  }
+
+  if (configuration.background) {
+    manifest['background'] = await setupBackgroundScript({ path, configuration, manifest })
+  }
+
+  if (configuration.content) {
+    manifest['content_scripts'] = await setupContentScript({ path, configuration, manifest })
+  }
+
+  if (configuration.inject) {
+    manifest['web_accessible_resources'] = await setupInjectScript({ path, configuration, manifest })
+  }
+
+  const outManifestPath = resolve(path, 'manifest.json')
+  await writeJson(outManifestPath, manifest, {
+    spaces: 2
+  })
+  console.log('Finish ;)')
 }
 
 module.exports = setup
