@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+
+  "name": "Chromer",
+  "description": "Chromer: Chrome extension boilerplate",
+  "version": "1.0",
+  "icons": {
+    "16": "icons/icon_16.png",
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "permissions": [
+    "http://google.com/*",
+    "https://google.com/*",
+    "http://www.google.com/*",
+    "https://www.google.com/*"
+  ],
+  "background": {
+    "persistent": false,
+    "scripts": ["js/background.js"]
+  },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "icons/icon_48.png",
+    "default_popup": "popup.html"
+  }
+}
