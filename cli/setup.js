@@ -31,7 +31,7 @@ const setupBackgroundScript = async ({ path, configuration, manifest }) => {
 
   return {
     'persistent': false,
-    'scripts': ['src/js/background.js']
+    'scripts': ['js/background.js']
   }
 }
 
@@ -40,12 +40,12 @@ const setupContentScript = async ({ path, configuration, manifest }) => {
   const destination = resolve(path, 'src/content')
   await copy(templatePath, destination)
 
-  return {
+  return [{
     'matches': [
-      '*'
+      'https://google.com/*'
     ],
     'js': ['js/content.js']
-  }
+  }]
 }
 
 const setupInjectScript = async ({ path, configuration, manifest }) => {

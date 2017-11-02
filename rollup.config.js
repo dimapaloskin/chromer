@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import jsx from 'rollup-plugin-jsx'
 
 import { copy } from 'fs-extra'
 
@@ -32,6 +33,7 @@ const createConfigChunk = name => ({
       main: true,
       browser: true
     }),
+    jsx({factory: 'h'}),
     commonjs(),
     babel({
       exclude: 'node_modules/**'
@@ -44,8 +46,13 @@ const prepare = async () => {
     await copy('manifest.json', `${constants.dist}/manifest.json`)
     await copy('icons', `${constants.dist}/icons`)
 
-    await copy('src/popup/index.html', `${constants.dist}/popup.html`)
-    await copy('src/options/index.html', `${constants.dist}/options.html`)
+    if (chunks.withPopup) {
+      await copy('src/popup/index.html', `${constants.dist}/popup.html`)
+    }
+
+    if (chunks.withOptions) {
+      await copy('src/options/index.html', `${constants.dist}/options.html`)
+    }
   } catch (err) {
     console.error(err)
     process.exit(1)
