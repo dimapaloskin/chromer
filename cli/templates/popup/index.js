@@ -1,9 +1,13 @@
+/** @jsx h */
 import { h, render } from 'preact'
 
-console.log('hello from popup')
+const style = {
+  width: '300px',
+  height: '300px'
+}
 
 render((
-  <div id='foo'>
+  <div style={style}>
     <span>Hello, world!</span>
   </div>
 ), document.querySelector('#app'))
