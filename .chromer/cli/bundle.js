@@ -7,14 +7,16 @@ const crx = require('crx');
 const main = async () => {
   try {
     const packer = new crx({
-      // TODO: if autoupdate:  codebase: 'http://link-to-crx',
+      // TODO: Add update_url to manifest.json
+      // https://developer.chrome.com/apps/autoupdate
+      // codebase: 'http://link-to-crx',
       privateKey: await readFile(resolve(process.cwd(), 'keys/key.pem'))
     })
     const extension = await packer.load(resolve(process.cwd(), 'dist'))
     const buffer = await extension.pack()
 
     /*
-    TODO: if autoupdate:
+    TODO: autoupdate
     fs.writeFile(
       resolve(process.cwd(), 'bundle/update.xml'),
       await extension.generateUpdateXML()
