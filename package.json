@@ -8,15 +8,18 @@
   "private": false,
   "scripts": {
     "lint": "standard --verbose | snazzy",
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
-    "configure": "node cli/index.js"
+    "dev": "rollup -c .chromer/rollup.config.js -w",
+    "build": "rollup -c .chromer/rollup.config.js",
+    "configure": "node .chromer/cli/index.js",
+    "generate_key": "crx keygen keys/",
+    "bundle": "node .chromer/cli/bundle.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
     "babel-preset-env": "^1.6.1",
     "chalk": "^2.3.0",
+    "crx": "^3.2.1",
     "fs-extra": "^4.0.2",
     "inquirer": "^3.3.0",
     "preact": "^8.2.6",

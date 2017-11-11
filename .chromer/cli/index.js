@@ -1,11 +1,7 @@
-const { resolve } = require('path')
-const chalk = require('chalk')
 const inquirer = require('inquirer')
-const fs = require('fs-extra')
 
+const { assertNoManifest } = require('./helper');
 const setup = require('./setup')
-
-const currentPath = process.cwd()
 
 const getConfiguration = async () => {
   const result = await inquirer.prompt([{
@@ -16,6 +12,10 @@ const getConfiguration = async () => {
     type: 'input',
     name: 'description',
     message: 'Extension description'
+  }, {
+    type: 'confirm',
+    name: 'icons',
+    message: 'Add default icons?'
   }, {
     type: 'confirm',
     name: 'popup',
@@ -43,18 +43,9 @@ const getConfiguration = async () => {
 
 const main = async () => {
   try {
-    const manifestPath = resolve(currentPath, 'manifest.json')
-
-    const isManifestExists = await fs.pathExists(manifestPath)
-
-    if (isManifestExists) {
-      console.log(` ${chalk.bold.red('[E]')} File manifest.json already exists`)
-      console.log(`     Remove or rename this file to generate new one\n`)
-      process.exit(1)
-    }
-
+    await assertNoManifest()
     const configuration = await getConfiguration()
-    await setup(currentPath, configuration)
+    await setup(process.cwd(), configuration)
   } catch (err) {
     console.error(err)
     process.exit(1)
