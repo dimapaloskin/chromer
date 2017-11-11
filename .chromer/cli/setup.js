@@ -56,6 +56,19 @@ const setupInjectScript = async ({ path, configuration, manifest }) => {
   return ['js/inject.js']
 }
 
+const setupIcons = async ({ path, configuration, manifest }) => {
+  const templatePath = resolve(path, '.chromer/cli/templates/icons')
+  const destination = resolve(path, 'src/icons')
+  await copy(templatePath, destination)
+
+  return {
+    icons: {
+      16: 'icons/icon_16.png',
+      48: 'icons/icon_48.png',
+      128: 'icons/icon_128.png'
+    }
+  }
+}
 const setup = async (path, configuration) => {
   console.log('Configuration:\n', configuration, '\n')
 
@@ -80,6 +93,10 @@ const setup = async (path, configuration) => {
 
   if (configuration.inject) {
     manifest['web_accessible_resources'] = await setupInjectScript({ path, configuration, manifest })
+  }
+
+  if (configuration.icons) {
+    manifest['icons'] = await setupIcons({ path, configuration, manifest })
   }
 
   const outManifestPath = resolve(path, 'src/manifest.json')

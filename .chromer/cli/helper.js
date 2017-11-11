@@ -1,10 +1,10 @@
-const fs = require('fs-extra')
+const { pathExists } = require('fs-extra')
 const chalk = require('chalk')
 const { resolve } = require('path')
 
 
 const isManifestExists =
-  async () => fs.pathExists(resolve(process.cwd(), 'src/manifest.json'))
+  async () => pathExists(resolve(process.cwd(), 'src/manifest.json'))
 
 const assertNoManifest = async () => {
   if (await isManifestExists()) {

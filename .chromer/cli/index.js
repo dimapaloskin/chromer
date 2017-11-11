@@ -14,6 +14,10 @@ const getConfiguration = async () => {
     message: 'Extension description'
   }, {
     type: 'confirm',
+    name: 'icons',
+    message: 'Add default icons?'
+  }, {
+    type: 'confirm',
     name: 'popup',
     message: 'Add popup page?'
   }, {
@@ -40,7 +44,8 @@ const getConfiguration = async () => {
 const main = async () => {
   try {
     await assertNoManifest()
-    await setup(process.cwd(), await getConfiguration())
+    const configuration = await getConfiguration()
+    await setup(process.cwd(), configuration)
   } catch (err) {
     console.error(err)
     process.exit(1)
