@@ -5,7 +5,7 @@ const chalk = require('chalk')
 const manifest = require('./templates/manifest.json')
 
 const setupPopup = async ({ path, configuration, manifest }) => {
-  const templatePath = resolve(path, 'cli/templates/popup')
+  const templatePath = resolve(path, '.chromer/cli/templates/popup')
   const destination = resolve(path, 'src/popup')
   await copy(templatePath, destination)
 
@@ -17,7 +17,7 @@ const setupPopup = async ({ path, configuration, manifest }) => {
 }
 
 const setupOptionsPage = async ({ path, configuration, manifest }) => {
-  const templatePath = resolve(path, 'cli/templates/options')
+  const templatePath = resolve(path, '.chromer/cli/templates/options')
   const destination = resolve(path, 'src/options')
   await copy(templatePath, destination)
 
@@ -25,7 +25,7 @@ const setupOptionsPage = async ({ path, configuration, manifest }) => {
 }
 
 const setupBackgroundScript = async ({ path, configuration, manifest }) => {
-  const templatePath = resolve(path, 'cli/templates/background')
+  const templatePath = resolve(path, '.chromer/cli/templates/background')
   const destination = resolve(path, 'src/background')
   await copy(templatePath, destination)
 
@@ -36,7 +36,7 @@ const setupBackgroundScript = async ({ path, configuration, manifest }) => {
 }
 
 const setupContentScript = async ({ path, configuration, manifest }) => {
-  const templatePath = resolve(path, 'cli/templates/content')
+  const templatePath = resolve(path, '.chromer/cli/templates/content')
   const destination = resolve(path, 'src/content')
   await copy(templatePath, destination)
 
@@ -49,7 +49,7 @@ const setupContentScript = async ({ path, configuration, manifest }) => {
 }
 
 const setupInjectScript = async ({ path, configuration, manifest }) => {
-  const templatePath = resolve(path, 'cli/templates/inject')
+  const templatePath = resolve(path, '.chromer/cli/templates/inject')
   const destination = resolve(path, 'src/inject')
   await copy(templatePath, destination)
 
@@ -82,7 +82,7 @@ const setup = async (path, configuration) => {
     manifest['web_accessible_resources'] = await setupInjectScript({ path, configuration, manifest })
   }
 
-  const outManifestPath = resolve(path, 'manifest.json')
+  const outManifestPath = resolve(path, 'src/manifest.json')
   await writeJson(outManifestPath, manifest, {
     spaces: 2
   })

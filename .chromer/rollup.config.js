@@ -5,7 +5,7 @@ import jsx from 'rollup-plugin-jsx'
 
 import { copy } from 'fs-extra'
 
-import manifest from './manifest.json'
+import manifest from '../src/manifest.json'
 
 const constants = {
   dist: 'dist'
@@ -43,8 +43,8 @@ const createConfigChunk = name => ({
 
 const prepare = async () => {
   try {
-    await copy('manifest.json', `${constants.dist}/manifest.json`)
-    await copy('icons', `${constants.dist}/icons`)
+    await copy('src/manifest.json', `${constants.dist}/manifest.json`)
+    await copy('src/icons', `${constants.dist}/icons`)
 
     if (chunks.withPopup) {
       await copy('src/popup/index.html', `${constants.dist}/popup.html`)
